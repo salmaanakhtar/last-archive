@@ -25,7 +25,6 @@ export class World {
   private camTarget = new THREE.Vector3();
   private camPos = new THREE.Vector3();
   private phase: Phase = 'boot';
-  private bootElapsed = 0;
   private introLinesPlayed = false;
   private introFinished = false;
   private awake = 0;
@@ -61,22 +60,17 @@ export class World {
     this.vault = new Vault(scene);
     this.monolith = new Monolith(scene);
     this.dust = new Dust(scene, engine.quality.particleCount);
-    const amb = new THREE.AmbientLight(0x232b3d, 1.1);
+    const amb = new THREE.AmbientLight(0x39415a, 1.6);
     scene.add(amb);
-    const key = new THREE.DirectionalLight(0x8fa8d4, 2.4);
+    const key = new THREE.DirectionalLight(0xb0c4e8, 2.2);
     key.position.set(6, 10, 4);
     scene.add(key);
-    const warm = new THREE.DirectionalLight(0xff9a3d, 0.7);
+    const warm = new THREE.DirectionalLight(0xff9a3d, 0.85);
     warm.position.set(-6, 4, -6);
     scene.add(warm);
-    const fill = new THREE.DirectionalLight(0x9fc0c9, 0.5);
+    const fill = new THREE.DirectionalLight(0x9fc0c9, 0.7);
     fill.position.set(-4, 2, 8);
     scene.add(fill);
-    const spot = new THREE.SpotLight(0xffd9a8, 240, 60, 0.6, 0.35, 1.2);
-    spot.position.set(0, 24, 0);
-    spot.target.position.set(0, 0, 0);
-    scene.add(spot);
-    scene.add(spot.target);
 
     this.camTarget.copy(PHASE_CAM.intro);
     this.camPos.copy(PHASE_CAM.intro);
@@ -282,13 +276,10 @@ export class World {
     const t = w.time;
 
     // — boot: wait for the boot sequence, then descend —
-    if (this.phase === 'boot') {
-      this.bootElapsed += dt;
-      if (this.engine.boot.done) {
-        this.engine.transition('intro');
-        document.getElementById('intro')!.classList.remove('hidden');
-        this.engine.bootFinished();
-      }
+    if (this.phase === 'boot' && this.engine.boot.done) {
+      this.engine.transition('intro');
+      document.getElementById('intro')!.classList.remove('hidden');
+      this.engine.bootFinished();
     }
 
     // — intro: scroll descends toward the archive —

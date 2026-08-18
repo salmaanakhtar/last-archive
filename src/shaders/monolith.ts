@@ -127,15 +127,15 @@ export const monolithFrag = /* glsl */ `
 
     // key light: cool moonlight from above-front
     float ndl = max(dot(N, normalize(vec3(0.55, 0.8, 0.35))), 0.0);
-    col += vec3(0.55, 0.68, 0.85) * ndl * 1.4;
+    col += vec3(0.6, 0.72, 0.88) * ndl * 0.5;
     // warm fill from behind-left
     float ndw = max(dot(N, normalize(vec3(-0.5, 0.15, -0.35))), 0.0);
-    col += vec3(1.0, 0.55, 0.22) * ndw * 0.55;
+    col += vec3(1.0, 0.55, 0.22) * ndw * 0.22;
 
     // pointer proximity light — the stone remembers being touched
     float distToPointer = distance(vWorldPos, uPointerWorld);
     float touch = exp(-distToPointer * 0.9) * (0.5 + uHover * 0.9);
-    col += vec3(1.0, 0.62, 0.25) * touch;
+    col += vec3(1.0, 0.62, 0.25) * touch * 0.5;
 
     // fine etched grain — every surface holds data
     float g = hash(vUv * 900.0);
@@ -153,7 +153,7 @@ export const monolithFrag = /* glsl */ `
 
     // edge light from behind
     float rim = pow(1.0 - max(ndv, 0.0), 2.4);
-    col += vec3(0.35, 0.75, 0.7) * rim * (0.35 + uAwake * 0.7);
+    col += vec3(0.35, 0.75, 0.7) * rim * (0.28 + uAwake * 0.5);
 
     // subtle fresnel for depth
     col *= 0.85 + 0.35 * ndv;

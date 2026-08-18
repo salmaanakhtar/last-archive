@@ -5,12 +5,14 @@ export class Boot {
   private hint: HTMLElement;
   progress = 0;
   done = false;
+  lastFeed = 0;
 
   constructor() {
     this.el = document.getElementById('boot')!;
     this.bar = this.el.querySelector('.boot-progress span')!;
     this.sub = document.getElementById('boot-sub')!;
     this.hint = document.getElementById('boot-hint')!;
+    this.lastFeed = performance.now();
   }
 
   /** advance progress; returns true when finished */

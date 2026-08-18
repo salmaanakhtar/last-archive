@@ -35,7 +35,7 @@ export class Vault {
     // — floor: dark stone with faint veins of light —
     const floorGeo = new THREE.PlaneGeometry(140, 140, 1, 1);
     this.floorMat = new THREE.MeshStandardMaterial({
-      color: 0x14161d,
+      color: 0x1a1d26,
       roughness: 0.92,
       metalness: 0.05,
     });
@@ -87,7 +87,7 @@ export class Vault {
       for (let i = 0; i < 4; i++) {
         const z = -14 + i * 9;
         const mat = new THREE.MeshStandardMaterial({
-          color: 0x23262f,
+          color: 0x2c303b,
           roughness: 0.95,
           metalness: 0.02,
         });
@@ -125,9 +125,9 @@ export class Vault {
 
     // — light pool beneath the Archive —
     this.poolMat = new THREE.MeshBasicMaterial({
-      color: 0x17605a,
+      color: 0x1e7269,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.85,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
@@ -140,7 +140,7 @@ export class Vault {
     this.glowMat = new THREE.MeshBasicMaterial({
       color: 0x2d7a71,
       transparent: true,
-      opacity: 0.14,
+      opacity: 0.2,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
       side: THREE.DoubleSide,
@@ -148,6 +148,11 @@ export class Vault {
     this.glow = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 3.4, 26, 24, 1, true), this.glowMat);
     this.glow.position.y = 13;
     g.add(this.glow);
+
+    // — a single point light above the archive — the archive's own light —
+    const beacon = new THREE.PointLight(0x7fe0d2, 30, 60, 1.8);
+    beacon.position.set(0, 16, 0);
+    g.add(beacon);
   }
 
   update(w: WorldHandles, dt: number, awake: number) {

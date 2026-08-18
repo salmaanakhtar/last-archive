@@ -20,7 +20,7 @@ export function createCanvasRenderer(container: HTMLElement, q: QualitySettings)
   renderer.setSize(container.clientWidth, container.clientHeight, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.12;
+  renderer.toneMappingExposure = 1.45;
   if (q.shadows) {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;

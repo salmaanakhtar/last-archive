@@ -64,6 +64,9 @@ export class Engine {
   private container: HTMLElement;
   private toastEl: HTMLElement;
   private toastTimer = 0;
+  private bootTimer = 0;
+  private bootElapsedTotal = 0;
+  private bootAdvanced = false;
   private muteBtn: HTMLElement;
   private coordsEl: HTMLElement;
   private raf = 0;
@@ -102,6 +105,16 @@ export class Engine {
     });
 
     window.addEventListener('resize', () => this.onResize());
+    // boot must complete even if rAF is throttled (hidden tab) — use a timer
+    this.bootTimer = window.setInterval(() => {
+      if (!this.boot.done && this.bootElapsedTotal < 60) {
+        this.bootElapsedTotal += 0.05;
+        this.boot.feed(0.05 * 0.6);
+        if (this.boot.done) this.autoAdvanceFromBoot();
+      } else {
+        window.clearInterval(this.bootTimer);
+      }
+    }, 50);
     window.addEventListener('pointermove', (e) => this.onPointerMove(e));
     window.addEventListener('pointerdown', () => {
       this.input.pointer.down = true;
@@ -138,6 +151,15 @@ export class Engine {
 
   /** called by the world once the boot is finished */
   bootFinished() {
+    this.boot.fadeOut();
+  }
+
+  /** fallback: advance from boot to intro even if rAF is throttled */
+  private autoAdvanceFromBoot() {
+    if (this.bootAdvanced || this.phase !== 'boot') return;
+    this.bootAdvanced = true;
+    this.transition('intro');
+    document.getElementById('intro')?.classList.remove('hidden');
     this.boot.fadeOut();
   }
 
@@ -214,9 +236,10 @@ export class Engine {
     this.time += dt;
     this.activity = Math.max(0, this.activity - dt * 0.5);
 
-    // boot progress handled by the world, but always advance in case
+    // boot progress advances on wall-clock time (works even when rAF is throttled)
     if (!this.boot.done) {
-      this.boot.feed(dt * 0.5);
+      this.boot.feed(Math.min(0.5, (now - this.boot.lastFeed) / 1000) * 0.6);
+      this.boot.lastFeed = now;
     }
 
     // pointer world-space ray (approximate using camera)
