@@ -56,14 +56,14 @@ export class Vault {
         const a = (i / segs) * TAU + ring * 1.3;
         const x = Math.cos(a) * r;
         const z = Math.sin(a) * r;
-        pts.push(new THREE.Vector3(x, 0.012, z));
+        pts.push(new THREE.Vector3(x, 0.02, z));
       }
     }
     veinGeo.setFromPoints(pts);
     this.trailMat = new THREE.LineBasicMaterial({
-      color: 0x2f6b66,
+      color: 0x2f8a80,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.95,
     });
     this.trail = new THREE.Line(veinGeo, this.trailMat);
     g.add(this.trail);
@@ -82,14 +82,14 @@ export class Vault {
     this.floorSides.push(walls);
 
     // — worn columns flanking the path —
-    const colGeo = new THREE.CylinderGeometry(0.9, 1.15, 11, 10, 1, false);
+    const colGeo = new THREE.CylinderGeometry(0.9, 1.15, 11, 12, 1, false);
     for (let side = -1; side <= 1; side += 2) {
       for (let i = 0; i < 4; i++) {
         const z = -14 + i * 9;
         const mat = new THREE.MeshStandardMaterial({
-          color: 0x2c303b,
-          roughness: 0.95,
-          metalness: 0.02,
+          color: 0x3a3f4d,
+          roughness: 0.9,
+          metalness: 0.05,
         });
         const col = new THREE.Mesh(colGeo, mat);
         col.position.set(side * 11, 5.4, z);
@@ -125,22 +125,22 @@ export class Vault {
 
     // — light pool beneath the Archive —
     this.poolMat = new THREE.MeshBasicMaterial({
-      color: 0x1e7269,
+      color: 0x1e8a80,
       transparent: true,
-      opacity: 0.85,
+      opacity: 1,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
     this.pool = new THREE.Mesh(new THREE.PlaneGeometry(9, 9, 1, 1), this.poolMat);
     this.pool.rotation.x = -Math.PI / 2;
-    this.pool.position.y = 0.015;
+    this.pool.position.y = 0.02;
     g.add(this.pool);
 
     // — volumetric fake: a soft column of light from above —
     this.glowMat = new THREE.MeshBasicMaterial({
-      color: 0x2d7a71,
+      color: 0x3a8a80,
       transparent: true,
-      opacity: 0.2,
+      opacity: 0.28,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
       side: THREE.DoubleSide,
@@ -161,7 +161,7 @@ export class Vault {
     // floor veins: pulse with the archive's heartbeat, stronger when awake
     if (this.trailMat) {
       const pulse = 0.4 + 0.15 * Math.sin(this.time * 0.8);
-      this.trailMat.opacity = 0.25 + pulse * 0.3 + awake * 0.45;
+      this.trailMat.opacity = 0.55 + pulse * 0.3 + awake * 0.45;
     }
 
     // light pool breathes and follows the pointer's world position softly
@@ -170,14 +170,14 @@ export class Vault {
       const ease = 1 - Math.exp(-dt * 1.8);
       this.pool.position.x += (target.x * 0.55 - this.pool.position.x) * ease;
       this.pool.position.z += (target.z * 0.55 - this.pool.position.z) * ease;
-      this.poolMat.opacity = 0.35 + 0.25 * Math.sin(this.time * 1.3) + awake * 0.4;
-      const s = 8 + 3 * Math.sin(this.time * 0.5) + awake * 3;
+      this.poolMat.opacity = 0.7 + 0.3 * Math.sin(this.time * 1.3) + awake * 0.3;
+      const s = 9 + 3 * Math.sin(this.time * 0.5) + awake * 3;
       this.pool.scale.set(s, s, 1);
     }
 
     // glow column flickers like old light
     if (this.glow && this.glowMat) {
-      this.glowMat.opacity = 0.055 + 0.025 * Math.sin(this.time * 0.9) + awake * 0.1;
+      this.glowMat.opacity = 0.2 + 0.08 * Math.sin(this.time * 0.9) + awake * 0.15;
       this.glow.rotation.y += dt * 0.02;
     }
 

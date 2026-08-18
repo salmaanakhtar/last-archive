@@ -61,8 +61,10 @@ export class Monolith {
   private build() {
     const g = this.group;
 
-    // — the stone —
-    const geo = new THREE.IcosahedronGeometry(1.55, 3);
+    // — the stone: a tapered obelisk, the form of the Archive —
+    // geometry spans y 0..3.6 (base at 0); mesh sits on the floor
+    const geo = new THREE.CylinderGeometry(1.3, 1.9, 3.6, 48, 24, false);
+    geo.translate(0, 1.8, 0);
     this.mat = new THREE.ShaderMaterial({
       vertexShader: monolithVert,
       fragmentShader: monolithFrag,
@@ -72,15 +74,15 @@ export class Monolith {
         uReveal: { value: 0 },
         uSelect: { value: 0 },
         uAwake: { value: 0 },
-        uNoiseAmp: { value: 0.12 },
+        uNoiseAmp: { value: 0.42 },
         uPointerWorld: { value: this.pointerWorld },
-        uColorA: { value: new THREE.Color(0x565e6e) },
-        uColorB: { value: new THREE.Color(0x2a2e3a) },
+        uColorA: { value: new THREE.Color(0x96795c) },
+        uColorB: { value: new THREE.Color(0x4a3a2c) },
         uSeed: { value: Math.random() * 1000 },
       },
     });
     this.mesh = new THREE.Mesh(geo, this.mat);
-    this.mesh.position.y = 3.4;
+    this.mesh.position.y = 0;
     g.add(this.mesh);
 
     // — data shards orbit the stone —
@@ -95,7 +97,10 @@ export class Monolith {
       });
       const sh = new THREE.Mesh(sg, sm);
       sh.position.copy(def.pos);
-      sh.userData = { def, base: def.pos.clone(), orbit: (i % 3) * TAU / 3, speed: 0.14 + (i % 5) * 0.05 };
+      const base = def.pos.clone();
+      // normalize shard spread to the obelisk's height
+      base.y = 3.4 + (base.y - 3.4) * 0.9;
+      sh.userData = { def, base, orbit: (i % 3) * TAU / 3, speed: 0.14 + (i % 5) * 0.05 };
       sh.rotation.z = Math.random() * TAU;
       g.add(sh);
       this.shards.push(sh);
@@ -110,10 +115,11 @@ export class Monolith {
         opacity: 0,
         depthWrite: false,
       });
-      const r = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), mat);
+      const r = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.5), mat);
       const a = (i / 7) * TAU + 0.4;
-      r.position.set(Math.cos(a) * 1.75, 3.4 + Math.sin(a * 2.2) * 0.5, Math.sin(a) * 1.75);
-      r.lookAt(0, 3.4, 0);
+      const radius = 1.62;
+      r.position.set(Math.cos(a) * radius, 2.6 + Math.sin(i * 1.7) * 0.35, Math.sin(a) * radius);
+      r.lookAt(0, 2.6, 0);
       r.userData = { i, opened: false, base: r.position.clone() };
       g.add(r);
       this.runeMeshes.push(r);

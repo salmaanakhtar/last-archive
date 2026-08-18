@@ -21,7 +21,7 @@ export class World {
   private vault: Vault;
   private monolith: Monolith;
   private dust: Dust;
-  private camLook = new THREE.Vector3(0, 3.2, 0);
+  private camLook = new THREE.Vector3(0, 1.9, 0);
   private camTarget = new THREE.Vector3();
   private camPos = new THREE.Vector3();
   private phase: Phase = 'boot';
@@ -354,7 +354,7 @@ export class World {
     // — camera easing —
     this.camPos.lerp(this.camTarget, 1 - Math.exp(-dt * 2.0));
     w.camera.position.copy(this.camPos);
-    const lookTarget = new THREE.Vector3(0, 3.1, 0);
+    const lookTarget = new THREE.Vector3(0, 1.9, 0);
     lookTarget.x += Math.sin(this.dragRotY) * 2.4;
     lookTarget.z += Math.cos(this.dragRotY) * 2.4;
     this.camLook.lerp(lookTarget, 1 - Math.exp(-dt * 3));
@@ -380,7 +380,7 @@ export class World {
     if (w.input.pointer.active) {
       const v = new THREE.Vector3(ndc.x, ndc.y, 0.5).unproject(w.camera);
       const dir = v.sub(w.camera.position).normalize();
-      const tHit = (3.4 - w.camera.position.y) / dir.y;
+      const tHit = (1.9 - w.camera.position.y) / dir.y;
       if (tHit > 0) {
         w.input.pointer.worldPlane
           .copy(w.camera.position)

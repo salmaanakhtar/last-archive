@@ -51,7 +51,7 @@ export function createEffectComposer(renderer: THREE.WebGLRenderer, _scene: THRE
         time: { value: 0 },
         resolution: { value: new THREE.Vector2(w, h) },
         noiseSeed: { value: Math.random() * 1000 },
-        vignette: { value: 0.55 },
+        vignette: { value: 0.25 },
         chroma: { value: 1 },
         scan: { value: 0 },
       },
