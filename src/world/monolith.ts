@@ -74,8 +74,8 @@ export class Monolith {
         uAwake: { value: 0 },
         uNoiseAmp: { value: 0.12 },
         uPointerWorld: { value: this.pointerWorld },
-        uColorA: { value: new THREE.Color(0x1a1d22) },
-        uColorB: { value: new THREE.Color(0x0c0e13) },
+        uColorA: { value: new THREE.Color(0x3a4150) },
+        uColorB: { value: new THREE.Color(0x1a1d26) },
         uSeed: { value: Math.random() * 1000 },
       },
     });

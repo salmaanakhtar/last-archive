@@ -125,9 +125,16 @@ export const monolithFrag = /* glsl */ `
     float band = 0.5 + 0.5 * sin(vWorldPos.y * 1.7 + uTime * 0.35 + vWorldPos.x * 0.6);
     vec3 col = mix(uColorA, uColorB, band * 0.5 + 0.5);
 
+    // key light: cool moonlight from above-front
+    float ndl = max(dot(N, normalize(vec3(0.55, 0.8, 0.35))), 0.0);
+    col += vec3(0.55, 0.68, 0.85) * ndl * 1.4;
+    // warm fill from behind-left
+    float ndw = max(dot(N, normalize(vec3(-0.5, 0.15, -0.35))), 0.0);
+    col += vec3(1.0, 0.55, 0.22) * ndw * 0.55;
+
     // pointer proximity light — the stone remembers being touched
     float distToPointer = distance(vWorldPos, uPointerWorld);
-    float touch = exp(-distToPointer * 0.9) * (0.35 + uHover * 0.6);
+    float touch = exp(-distToPointer * 0.9) * (0.5 + uHover * 0.9);
     col += vec3(1.0, 0.62, 0.25) * touch;
 
     // fine etched grain — every surface holds data
@@ -141,15 +148,15 @@ export const monolithFrag = /* glsl */ `
       float line = smoothstep(0.82, 0.86, abs(fract(fp.x) - 0.5));
       runes = max(runes, line * smoothstep(0.5, 0.9, abs(fract(fp.y) - 0.5)));
     }
-    float runeGlow = runes * (0.08 + uAwake * 0.8);
+    float runeGlow = runes * (0.18 + uAwake * 0.9);
     col += vec3(0.5, 0.95, 0.9) * runeGlow;
 
     // edge light from behind
     float rim = pow(1.0 - max(ndv, 0.0), 2.4);
-    col += vec3(0.35, 0.75, 0.7) * rim * (0.15 + uAwake * 0.5);
+    col += vec3(0.35, 0.75, 0.7) * rim * (0.35 + uAwake * 0.7);
 
     // subtle fresnel for depth
-    col *= 0.82 + 0.3 * ndv;
+    col *= 0.85 + 0.35 * ndv;
 
     gl_FragColor = vec4(col, 1.0);
   }

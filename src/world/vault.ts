@@ -35,7 +35,7 @@ export class Vault {
     // — floor: dark stone with faint veins of light —
     const floorGeo = new THREE.PlaneGeometry(140, 140, 1, 1);
     this.floorMat = new THREE.MeshStandardMaterial({
-      color: 0x0c0e13,
+      color: 0x14161d,
       roughness: 0.92,
       metalness: 0.05,
     });
@@ -61,16 +61,16 @@ export class Vault {
     }
     veinGeo.setFromPoints(pts);
     this.trailMat = new THREE.LineBasicMaterial({
-      color: 0x1f4a47,
+      color: 0x2f6b66,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.8,
     });
     this.trail = new THREE.Line(veinGeo, this.trailMat);
     g.add(this.trail);
 
     // — side walls — far planes that catch the rim light
     const wallMat = new THREE.MeshStandardMaterial({
-      color: 0x090b0f,
+      color: 0x10131a,
       roughness: 1,
       metalness: 0,
       side: THREE.BackSide,
@@ -87,7 +87,7 @@ export class Vault {
       for (let i = 0; i < 4; i++) {
         const z = -14 + i * 9;
         const mat = new THREE.MeshStandardMaterial({
-          color: 0x15181d,
+          color: 0x23262f,
           roughness: 0.95,
           metalness: 0.02,
         });
@@ -113,10 +113,10 @@ export class Vault {
     const starGeo = new THREE.BufferGeometry();
     starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
     this.starsMat = new THREE.PointsMaterial({
-      color: 0x8a857a,
-      size: 0.3,
+      color: 0xa9a296,
+      size: 0.42,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.6,
       depthWrite: false,
       sizeAttenuation: true,
     });
@@ -125,9 +125,9 @@ export class Vault {
 
     // — light pool beneath the Archive —
     this.poolMat = new THREE.MeshBasicMaterial({
-      color: 0x0e3f3a,
+      color: 0x17605a,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.75,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
@@ -138,9 +138,9 @@ export class Vault {
 
     // — volumetric fake: a soft column of light from above —
     this.glowMat = new THREE.MeshBasicMaterial({
-      color: 0x1d5a54,
+      color: 0x2d7a71,
       transparent: true,
-      opacity: 0.07,
+      opacity: 0.14,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
       side: THREE.DoubleSide,

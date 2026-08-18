@@ -56,19 +56,27 @@ export class World {
     this.engine = engine;
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x04050a);
-    scene.fog = new THREE.FogExp2(0x04050a, 0.016);
+    scene.fog = new THREE.FogExp2(0x05060b, 0.011);
 
     this.vault = new Vault(scene);
     this.monolith = new Monolith(scene);
     this.dust = new Dust(scene, engine.quality.particleCount);
-    const amb = new THREE.AmbientLight(0x1a2030, 0.5);
+    const amb = new THREE.AmbientLight(0x232b3d, 1.1);
     scene.add(amb);
-    const key = new THREE.DirectionalLight(0x3a4a6a, 1.1);
+    const key = new THREE.DirectionalLight(0x8fa8d4, 2.4);
     key.position.set(6, 10, 4);
     scene.add(key);
-    const warm = new THREE.DirectionalLight(0xff9a3d, 0.25);
+    const warm = new THREE.DirectionalLight(0xff9a3d, 0.7);
     warm.position.set(-6, 4, -6);
     scene.add(warm);
+    const fill = new THREE.DirectionalLight(0x9fc0c9, 0.5);
+    fill.position.set(-4, 2, 8);
+    scene.add(fill);
+    const spot = new THREE.SpotLight(0xffd9a8, 240, 60, 0.6, 0.35, 1.2);
+    spot.position.set(0, 24, 0);
+    spot.target.position.set(0, 0, 0);
+    scene.add(spot);
+    scene.add(spot.target);
 
     this.camTarget.copy(PHASE_CAM.intro);
     this.camPos.copy(PHASE_CAM.intro);
