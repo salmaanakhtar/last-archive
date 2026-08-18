@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05060a" />
+    <meta
+      name="description"
+      content="THE LAST ARCHIVE — the final surviving digital archive of a lost civilization. An interactive descent."
+    />
+    <title>THE LAST ARCHIVE</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="stage"></div>
+
+      <div id="grain"></div>
+
+      <header id="hud">
+        <div class="hud-brand">
+          <span class="hud-brand-name">THE LAST ARCHIVE</span>
+        </div>
+        <div class="hud-side">
+          <span id="hud-coords" class="hud-mono">— — —</span>
+          <button id="mute-btn" class="hud-mono" aria-label="Toggle sound">
+            <span class="mute-icon"></span>
+          </button>
+        </div>
+      </header>
+
+      <div id="boot" class="layer">
+        <div class="boot-inner">
+          <div class="boot-seal"></div>
+          <p class="boot-line boot-title" id="boot-title">
+            THE&nbsp;LAST&nbsp;ARCHIVE
+          </p>
+          <p class="boot-line boot-sub" id="boot-sub">
+            // locating fragment 0x7F3A · manifest intact
+          </p>
+          <p class="boot-line boot-hint" id="boot-hint">drag · scroll · hold · touch</p>
+        </div>
+        <div id="boot-progress" class="boot-progress"><span></span></div>
+      </div>
+
+      <div id="intro" class="layer hidden">
+        <div class="intro-scroll">
+          <p class="intro-chapter chapter-label">RECOVERED MEMORY 001</p>
+          <h1 class="intro-title">
+            <span class="t-line">It was never</span>
+            <span class="t-line">meant to</span>
+            <span class="t-line">survive.</span>
+          </h1>
+          <p class="intro-body">
+            Before the silence, a civilization built a vault of everything it
+            was. Its instruments. Its maps. Its voices. When the end came, the
+            vault sealed itself and sank into the dark.
+          </p>
+          <p class="intro-body body-2">
+            You are holding the last key. Every surface in this place still
+            remembers being touched.
+          </p>
+          <div class="intro-scroll-hint">
+            <span class="scroll-bar"><i></i></span>
+            <span class="scroll-label">SCROLL TO DESCEND</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="title" class="layer hidden">
+        <h2 class="title-word word-a">ARCHIVE</h2>
+        <div class="title-divider"></div>
+        <p class="title-sub">what remains, when everything else is gone</p>
+        <p class="title-cap" id="title-cap"></p>
+      </div>
+
+      <div id="shards-ui" class="layer hidden">
+        <div id="shards-name"></div>
+        <div id="shards-caption"></div>
+        <div class="shards-pager" id="shards-pager"></div>
+        <div class="shards-prompt">
+          <span class="glyph-glyph">◈</span>
+          <span>CLICK TO OPEN — TAP TO HOLD</span>
+        </div>
+        <div id="shards-hint" class="shards-hint">turn the artifact · read its edges</div>
+      </div>
+
+      <div id="runes-ui" class="layer hidden">
+        <p class="runes-eyebrow">THE ARCHIVE IS WATCHING</p>
+        <h3 class="runes-title">Seven seals guard the memory.</h3>
+        <p class="runes-caption">
+          Approach the runes. The archive reads you back.
+        </p>
+        <div class="runes-status">
+          <span id="runes-count">SEALS 0/7</span>
+          <span id="runes-feedback"></span>
+        </div>
+      </div>
+
+      <div id="recovered" class="layer hidden">
+        <div class="recovered-inner">
+          <p class="chapter-label">RECOVERED MEMORY 002</p>
+          <h2 class="recovered-title">Seven seals. Seven lives.</h2>
+          <p class="recovered-body">
+            You opened what was sealed. The archive is awake now — its light
+            touches every room it was built in. What you do with the memory is
+            yours.
+          </p>
+          <p class="recovered-glyph">◈</p>
+          <div class="recovered-actions">
+            <button id="btn-restart" class="btn">descend again</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="toast" class="layer"></div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
